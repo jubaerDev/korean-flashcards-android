@@ -63,3 +63,4 @@ Phone USB দিয়ে connect করে (Developer Options + USB debugging �
 - Internet connection লাগবে (Supabase cloud database)
 - এই version এ শুধু Flashcard feature আছে — বাকি feature (Upload, Question
   Bank ইত্যাদি) চাইলে ধাপে ধাপে যোগ করা যাবে
+# korean-flashcards-android
