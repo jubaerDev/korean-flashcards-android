@@ -1,0 +1,48 @@
+# app/build.gradle.kts এ dependencies { } ব্লকের ভিতরে এগুলো যোগ করো
+# (আগে যা যোগ করেছিলে সেগুলো থাকুক, নিচেরগুলো নতুন যোগ করো)
+
+dependencies {
+    // Retrofit (Supabase REST API call করার জন্য) — আগে যোগ করা থাকলে ঠিক আছে
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+
+    // Excel (.xlsx) ফাইল পড়ার জন্য (Upload Chapter feature)
+    implementation("org.apache.poi:poi-ooxml:5.2.5")
+
+    // নতুন: Room (local database, offline-first caching)
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+}
+
+# ---------------------------------------------------------------
+# ধাপ ১: Apache POI এর জন্য META-INF conflict এড়াতে (android { } ব্লকের
+# ভিতরে, dependencies ব্লকের বাইরে যোগ করো):
+# ---------------------------------------------------------------
+
+android {
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt",
+                "META-INF/*.kotlin_module"
+            )
+        }
+    }
+}
+
+# ---------------------------------------------------------------
+# ধাপ ২: Room এর জন্য "kapt" (annotation processing) plugin চালু করতে হবে।
+# app/build.gradle.kts এর একদম উপরে "plugins { }" ব্লকে এই লাইন যোগ করো:
+# ---------------------------------------------------------------
+
+plugins {
+    id("org.jetbrains.kotlin.kapt")
+    // আগে থেকে থাকা android/kotlin plugin লাইনগুলো অক্ষুণ্ণ রেখে এই লাইনটা যোগ করো
+}
